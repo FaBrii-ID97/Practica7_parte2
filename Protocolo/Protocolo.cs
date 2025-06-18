@@ -7,12 +7,27 @@
 
 /******* RESULTADOS   DE LA PRÁCTICA 
  * Se logro clonar un repositorio de GitHub
- * 
- * 
- * 
- * 
- * 
+ * Se realizan modificaciones en el código de la práctica 07
  * *******/
+
+/*******   CONCLUSIONES
+ * El uso de Git y GitHub permite gestionar versiones de un proyecto
+ * de manera segura y eficiente, permitiendo trabajar de forma independiente 
+ * sobre una copia del repositorio sin modificar el original
+ * 
+ * Visual Studio 2022 ofrece una integración completa con Git, facilitando
+ * las tareas de commit, push y control de cambios desde una interfaz gráfica 
+ * amigable, sin necesidad de usar la línea de comandos.
+ *  *************/
+
+/******* RECOMENDACIONES
+ * Es recomendable realizar commits frecuentes y descriptivos para mantener un 
+ * historial claro de los cambios realizados en el proyecto.
+ * 
+ * Utilizar ramas para desarrollar nuevas características o corregir errores, 
+ * permite trabajar de manera aislada sin afectar la rama principal del proyecto.
+ * 
+ * *************/
 
 using System.Linq;
 
