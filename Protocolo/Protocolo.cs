@@ -1,4 +1,19 @@
-﻿using System.Linq;
+﻿/*******************************************************************/
+/*                            Practica 07                          */
+/*                      Nombre: Fabricio Tixe                      */
+/*              Fecha de realización: 12/06/2025                   */
+/*              Fecha de entrega: 17/06/2025                       */
+/*******************************************************************/
+
+/******* RESULTADOS   DE LA PRÁCTICA 
+ * Se logr
+ * 
+ * 
+ * 
+ * 
+ * *******/
+
+using System.Linq;
 
 namespace Protocolo
 {
