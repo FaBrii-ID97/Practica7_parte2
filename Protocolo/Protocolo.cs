@@ -29,6 +29,7 @@
  * 
  * *************/
 
+using System;
 using System.Linq;
 
 namespace Protocolo
@@ -62,6 +63,34 @@ namespace Protocolo
         public override string ToString()
         {
             return $"{Estado} {Mensaje}";
+        }
+    }
+
+    // Clase Protocolo que usa Pedido y Respuesta
+    public class Protocolo1
+    {
+        private Pedido pedido;
+        private Respuesta respuesta;
+
+        // Constructor que recibe un Pedido
+        public Protocolo1(Pedido pedido)
+        {
+            this.pedido = pedido;
+            this.respuesta = new Respuesta();
+        }
+
+        // Método para realizar la operación con el pedido
+        public void HazOperacion()
+        {
+            Console.WriteLine("Realizando operación: " + pedido.Comando);
+        }
+
+        // Método para resolver el pedido y generar una respuesta
+        public Respuesta ResolverPedido()
+        {
+            respuesta.Estado = "OK";
+            respuesta.Mensaje = "Pedido resuelto: " + pedido.ToString();
+            return respuesta;
         }
     }
 
