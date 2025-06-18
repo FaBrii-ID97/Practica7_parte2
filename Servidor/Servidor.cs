@@ -17,12 +17,13 @@ namespace Servidor
 
         static void Main(string[] args)
         {
+            // Iniciar el servidor en el puerto 8080
             try
             {
                 escuchador = new TcpListener(IPAddress.Any, 8080);
                 escuchador.Start();
                 Console.WriteLine("Servidor inició en el puerto 5000...");
-
+                // Aceptar conexiones de clientes en un bucle infinito
                 while (true)
                 {
                     TcpClient cliente = escuchador.AcceptTcpClient();
@@ -31,6 +32,7 @@ namespace Servidor
                     hiloCliente.Start(cliente);
                 }
             }
+            // Capturar excepciones de socket al iniciar el servidor
             catch (SocketException ex)
             {
                 Console.WriteLine("Error de socket al iniciar el servidor: " +
@@ -42,24 +44,27 @@ namespace Servidor
             }
         }
 
+        // Método que maneja la comunicación con el cliente
         private static void ManipuladorCliente(object obj)
         {
             TcpClient cliente = (TcpClient)obj;
             NetworkStream flujo = null;
             try
             {
+                // Obtener el flujo de datos del cliente
                 flujo = cliente.GetStream();
                 byte[] bufferTx;
                 byte[] bufferRx = new byte[1024];
                 int bytesRx;
 
+                // Leer datos del cliente en un bucle
                 while ((bytesRx = flujo.Read(bufferRx, 0, bufferRx.Length)) > 0)
                 {
                     string mensajeRx =
                         Encoding.UTF8.GetString(bufferRx, 0, bytesRx);
                     Pedido pedido = Pedido.Procesar(mensajeRx);
                     Console.WriteLine("Se recibio: " + pedido);
-
+                    // Mostrar la dirección del cliente
                     string direccionCliente =
                         cliente.Client.RemoteEndPoint.ToString();
                     Respuesta respuesta = ResolverPedido(pedido, direccionCliente);
@@ -70,6 +75,7 @@ namespace Servidor
                 }
 
             }
+            // Capturar excepciones de socket al manejar el cliente
             catch (SocketException ex)
             {
                 Console.WriteLine("Error de socket al manejar el cliente: " + ex.Message);
@@ -80,12 +86,12 @@ namespace Servidor
                 cliente?.Close();
             }
         }
-
+        // Método que resuelve el pedido del cliente y devuelve una respuesta
         private static Respuesta ResolverPedido(Pedido pedido, string direccionCliente)
         {
             Respuesta respuesta = new Respuesta
             { Estado = "NOK", Mensaje = "Comando no reconocido" };
-
+            // Validar el comando del pedido y generar la respuesta adecuada
             switch (pedido.Comando)
             {
                 case "INGRESO":
@@ -106,7 +112,7 @@ namespace Servidor
                         respuesta.Mensaje = "ACCESO_NEGADO";
                     }
                     break;
-
+                // Comando para hacer una compra
                 case "CALCULO":
                     if (pedido.Parametros.Length == 3)
                     {
@@ -127,7 +133,7 @@ namespace Servidor
                         }
                     }
                     break;
-
+                // Comando para hacer una compra
                 case "CONTADOR":
                     if (listadoClientes.ContainsKey(direccionCliente))
                     {
@@ -144,17 +150,18 @@ namespace Servidor
 
             return respuesta;
         }
-
+        // Método para validar el formato de la placa del vehículo
         private static bool ValidarPlaca(string placa)
         {
             return Regex.IsMatch(placa, @"^[A-Z]{3}[0-9]{4}$");
         }
-
+        // Método para obtener el indicador del día de la semana basado en el último dígito de la placa
         private static byte ObtenerIndicadorDia(string placa)
         {
             int ultimoDigito = int.Parse(placa.Substring(6, 1));
             switch (ultimoDigito)
             {
+                
                 case 1: 
                 case 2: 
                     return 0b00100000; // Lunes
@@ -174,13 +181,15 @@ namespace Servidor
                     return 0;
             }
         }
-
+        // Método para contar las solicitudes de un cliente
         private static void ContadorCliente(string direccionCliente)
         {
+            // Si el cliente ya existe en el diccionario, incrementar su contador
             if (listadoClientes.ContainsKey(direccionCliente))
             {
                 listadoClientes[direccionCliente]++;
             }
+            // Si no existe, agregarlo con un contador inicial de 1
             else
             {
                 listadoClientes[direccionCliente] = 1;
