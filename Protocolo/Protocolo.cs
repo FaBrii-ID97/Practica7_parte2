@@ -6,7 +6,8 @@
 /*******************************************************************/
 
 /******* RESULTADOS   DE LA PRÁCTICA 
- * Se logr
+ * Se logro clonar un repositorio de GitHub
+ * 
  * 
  * 
  * 
